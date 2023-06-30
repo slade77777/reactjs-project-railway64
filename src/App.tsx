@@ -3,40 +3,67 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-function Person({name, age, yob}: {name: string, age: number, yob: number}) {
+
+const data = [
+  {
+    category: 'Sporting goods',
+    items: [
+      {
+        name: 'football',
+        price: 23
+      },
+      {
+        name: 'baseball',
+        price: 28
+      },
+      {
+        name: 'basketball',
+        price: 30
+      }
+    ]
+  },
+  {
+    category: 'Electronics',
+    items: [
+      {
+        name: 'ipod',
+        price: 500
+      },
+      {
+        name: 'iphone',
+        price: 5000
+      },
+      {
+        name: 'nexus',
+        price: 2000
+      }
+    ]
+  }
+];
+
+function Product({name, price}: {name: string, price: number}) {
   return <div>
-    <p>Ten: {name}</p>
-    <p>Tuoi: {age}</p>
-    <p>Nam sinh: {yob}</p>
+    <p>{name} {price}</p>
+  </div>
+}
+
+function Category({name, listItem}: {name: string, listItem: Array<any>}) {
+  console.log(name)
+  console.log(listItem)
+  return <div>
+    <div style={{ border: '1px solid blue', width: 200, marginTop: 20}}>
+      <p>{name}</p>
+      {
+        listItem.map((item, index) => <Product  name={item.name} price={item.price} key={index}/>)
+      }
+    </div>
   </div>
 }
 function App() {
-
-  const listPerson = [
-    {
-      name: 'nguyen van A',
-      tuoi : 19,
-      yob: 1994
-    },
-    {
-      name: 'nguyen van B',
-      tuoi : 23,
-      yob: 1997
-    },
-    {
-      name: 'nguyen van C',
-      tuoi : 29,
-      yob: 1990
-    },{
-      name: 'nguyen van D',
-      tuoi : 32,
-      yob: 1954
-    }
-  ]
   return (
     <div>
       {
-        listPerson.map((person, index) => <Person name={person.name} age={person.tuoi} yob={person.yob} key={index} />)
+        data.map((cate, index) => <Category  key={index}  listItem={cate.items} name={cate.category} />)
       }
     </div>
   )
