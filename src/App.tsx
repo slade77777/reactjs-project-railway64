@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useRef, useState} from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -28,35 +28,59 @@ const data = [
 ]
 
 const Article = ({title, category, content}: {title: string, content: string, category: string}) => {
+  const [timeNow, setTimeNow] = useState<string>((new Date()).toLocaleString())
+
   return <div style={{ width: '30%', marginRight: 10}}>
     <p className="title">{title}</p>
     <p className="content">{content}</p>
     <p style={{color: 'black'}}>{category}</p>
+    <button onClick={() => setTimeNow((new Date()).toLocaleString())}>Cập nhật thời gian mới nhất</button>
+    <p className="title">
+      thời gian hiện tại:{timeNow}
+    </p>
   </div>
 }
 
 function App() {
-  return (
-    <div className='container'>
-      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 1000}}>
-        {
-          data.map((item, index) => {
-            if (index === 0) {
-              return <div style={{ width: 1000, display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>
-                <img src={item.img} style={{ width: 700, height: 'auto' }}/>
-                <div style={{padding: 20}}>
-                  <p className="title">{item.title}</p>
-                  <p className="content">{item.content}</p>
-                </div>
-              </div>
-            } else {
-              return <Article  category={item.category} content={item.content} title={item.title} key={index} />
-            }
-          })
-        }
-      </div>
+  const [name, setName] = useState<string>('')
+  const nicknameRef = useRef(null);
 
+  const displayNickname = () => {
+    alert(nicknameRef.current.value)
+  }
+
+  console.log('rerender')
+  return (
+    <>
+    <div className='container'>
+      <label className="title">Name: </label>
+      <input type='text' style={{ backgroundColor: 'white', width: 200, height: 50, color: 'black'}} onChange={(e) => setName(e.target.value)} />
+      <p className='content'>Tên của bạn là : {name}</p>
+
+
+      <label className="title">nickname: </label>
+      <input type='text' style={{ backgroundColor: 'white', width: 200, height: 50, color: 'black'}} ref={nicknameRef} />
+      <button onClick={displayNickname}>Gans gia tri nickname</button>
+      {/*<div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: 1000}}>*/}
+      {/*  {*/}
+      {/*    data.map((item, index) => {*/}
+      {/*      if (index === 0) {*/}
+      {/*        return <div style={{ width: 1000, display: 'flex', flexDirection: 'row', backgroundColor: '#f7f7f7' }}>*/}
+      {/*          <img src={item.img} style={{ width: 700, height: 'auto' }}/>*/}
+      {/*          <div style={{padding: 20}}>*/}
+      {/*            <p className="title">{item.title}</p>*/}
+      {/*            <p className="content">{item.content}</p>*/}
+      {/*          </div>*/}
+      {/*        </div>*/}
+      {/*      } else {*/}
+      {/*        return <Article  category={item.category} content={item.content} title={item.title} key={index} />*/}
+      {/*      }*/}
+      {/*    })*/}
+      {/*  }*/}
+      {/*</div>*/}
     </div>
+    <div id="outside-div"></div>
+    </>
   )
 }
 
