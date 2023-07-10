@@ -2,7 +2,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AppContext} from "../App.tsx";
 
 const schema = yup.object({
@@ -17,7 +17,26 @@ const UserForm = () => {
   });
   const dataContext = useContext<any>(AppContext);
   const navigate = useNavigate();
-  console.log(dataContext);
+  const [name, setName] = useState('')
+  const [age, setAge] = useState('')
+  const [second, setSecond] = useState(0);
+
+  useEffect(() => {
+    // alert('component is mounting')
+    if (name.length > 10) {
+      alert('Name is too long')
+    }
+    if (Number(age) > 70) {
+      alert('Age is too old')
+    }
+  }, [name, age])
+
+  useEffect(() => {
+    setTimeout(() => {
+      //do something after 1 second
+      setSecond(second + 1)
+    }, 1000)
+  }, [second])
 
   function onSubmit(data: any) {
     dataContext?.changeUser({password: data.password});
@@ -25,8 +44,17 @@ const UserForm = () => {
   }
 
   return <div>
+    <div>
+      <p className="title">you are looking in this page for {second} seconds</p>
+    </div>
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
+        <label className="title">Name: </label>
+        <input type='text' onChange={(e) => setName(e.target.value)}  style={{ backgroundColor: 'white', width: 200, height: 50, color: 'black'}}/>
+        <p></p>
+        <label className="title">Age: </label>
+        <input type='number' onChange={(e) => setAge(e.target.value)}  style={{ backgroundColor: 'white', width: 200, height: 50, color: 'black'}}/>
+        <p></p>
         <label className="title">Password: </label>
         <input {...register('password')} type='text' style={{ backgroundColor: 'white', width: 200, height: 50, color: 'black'}}/>
         <p style={{color: 'red'}}>{errors.password?.message}</p>
