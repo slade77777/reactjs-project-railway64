@@ -7,6 +7,7 @@ import {
 import Home from "./page/Home.tsx";
 import React, {useState} from "react";
 import User from "./page/User.tsx";
+import Calculate from "./page/Calculate.tsx";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/user",
     element: <User />
+  },
+  {
+    path: "/calculate",
+    element: <Calculate />
   }
 ]);
 
