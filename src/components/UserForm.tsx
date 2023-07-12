@@ -31,12 +31,33 @@ const UserForm = () => {
     }
   }, [name, age])
 
+  function handleMouse() {
+    console.log(123);
+    setSecond(0)
+  }
+
   useEffect(() => {
-    setTimeout(() => {
-      //do something after 1 second
-      setSecond(second + 1)
+    document.addEventListener('mousemove', handleMouse)
+
+    return () => {
+      document.removeEventListener('mousemove',handleMouse)
+    }
+  }, [])
+
+  useEffect(() => {
+    setInterval(() => {
+        setSecond(time => time + 1)
     }, 1000)
+  }, [])
+
+  useEffect(() => {
+    if (second === 20) {
+      alert('ban con trong nay khong?')
+      setSecond(0)
+    }
   }, [second])
+
+  console.log(second)
 
   function onSubmit(data: any) {
     dataContext?.changeUser({password: data.password});
