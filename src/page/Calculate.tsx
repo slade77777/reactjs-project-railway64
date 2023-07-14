@@ -1,9 +1,18 @@
-import {memo, useEffect, useState} from "react";
+import {createContext, memo, useContext, useEffect, useState} from "react";
 import styled from "styled-components";
+import {words} from "../lang.ts";
+
+const ContentDetail = () => {
+  const locale = useContext(LocaleContext)
+  return <p>{locale === 'vi' ? 'Đây là nội dung chi tiết' :  'this is detail content'}</p>
+}
 
 const Content = () => {
-  console.log('content componet is render')
-  return <div> this is content </div>
+  const locale = useContext(LocaleContext)
+  return <div>
+    <p>{words[locale].content}</p>
+    <ContentDetail />
+  </div>
 }
 
 const ContentStyled = styled(Content)`
@@ -13,8 +22,11 @@ const ContentStyled = styled(Content)`
   background-color: #535bf2;
 `
 
+const LocaleContext = createContext<'vi' | 'en'>('vi');
+
 const Calculate = () => {
   const [randomNumber, setRandomNumber] = useState(0)
+  const [locale, setLocale] = useState<'vi' | 'en'>('vi')
 
   function generateNumber() {
     const newNumber = Math.round(Math.random() * 100);
@@ -25,13 +37,21 @@ const Calculate = () => {
     generateNumber();
   }, [])
 
-  return <Container>
-    <div><button onClick={generateNumber}>random number</button></div>
-    <Paragraph>X: {randomNumber}</Paragraph>
-    <Paragraph inputColor="blue">2 * X: {randomNumber * 2}</Paragraph>
-    <Paragraph inputColor="white">3 * X: {randomNumber * 3}</Paragraph>
-    <ContentStyled />
-  </Container>
+  function changeLanguage() {
+    setLocale(locale === 'vi' ? 'en' : 'vi');
+  }
+
+  return (
+    <LocaleContext.Provider value={locale}>
+      <Container>
+        <p>{locale === 'vi' ? 'ngôn ngữ đang sử dụng' : 'Language'}: {locale === 'vi' ? 'Tiếng việt' : 'English'}</p>
+        <Button onClick={changeLanguage}>{locale === 'vi' ? 'đổi sang tiếng anh' : 'change to Vietnamese'}</Button>
+        <div><button onClick={generateNumber}>{locale === 'vi' ? 'Tạo số ngẫu nhiên' : 'Generate random number'}</button></div>
+        <p className="text-red-600 font-bold my-4">X: {randomNumber}</p>
+        <ContentStyled />
+      </Container>
+    </LocaleContext.Provider>
+  );
 }
 
 export const Container = styled.div`
@@ -45,6 +65,10 @@ export const Container = styled.div`
 const Paragraph = styled.p<{ inputColor?: string; }>`
   color: ${props => props.inputColor || 'red'};
   font-size: 30px;
+`
+
+const Button = styled.button`
+  margin: 10px;
 `
 
 

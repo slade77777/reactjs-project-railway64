@@ -19,45 +19,6 @@ const UserForm = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('')
   const [age, setAge] = useState('')
-  const [second, setSecond] = useState(0);
-
-  useEffect(() => {
-    // alert('component is mounting')
-    if (name.length > 10) {
-      alert('Name is too long')
-    }
-    if (Number(age) > 70) {
-      alert('Age is too old')
-    }
-  }, [name, age])
-
-  function handleMouse() {
-    console.log(123);
-    setSecond(0)
-  }
-
-  useEffect(() => {
-    document.addEventListener('mousemove', handleMouse)
-
-    return () => {
-      document.removeEventListener('mousemove',handleMouse)
-    }
-  }, [])
-
-  useEffect(() => {
-    setInterval(() => {
-        setSecond(time => time + 1)
-    }, 1000)
-  }, [])
-
-  useEffect(() => {
-    if (second === 20) {
-      alert('ban con trong nay khong?')
-      setSecond(0)
-    }
-  }, [second])
-
-  console.log(second)
 
   function onSubmit(data: any) {
     dataContext?.changeUser({password: data.password});
@@ -65,9 +26,6 @@ const UserForm = () => {
   }
 
   return <div>
-    <div>
-      <p className="title">you are looking in this page for {second} seconds</p>
-    </div>
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label className="title">Name: </label>
