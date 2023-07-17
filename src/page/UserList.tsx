@@ -2,38 +2,29 @@ import {useEffect, useState} from "react";
 import styled from "styled-components";
 import UserForm from "../components/UserForm.tsx";
 import {getUserList} from "../services/user-api.ts";
+import {Link} from "react-router-dom";
+import useFetchData from "../hooks/useFetchData.ts";
 
-type User = {name: string, password: string}
+export type UserType = {name: string, password: string, id: string}
 
-const UserItem = ({user}: {user: User}) => {
-  return <Item >
+const UserItem = ({user}: {user: UserType}) => {
+  return <Link to={`/user/${user.id}`}><Item >
     <p>Name: {user.name}</p>
     <p>Password: {user.password}</p>
-  </Item>
+  </Item></Link>
 }
 
 const UserList = () => {
-  const [userList, setUserList] = useState<User[]>([])
-  function getListUser() {
-    getUserList().then((response) => {
-      setUserList(response.data)
-    }).catch(error => {
-      console.log(error)
-    })
-  }
-
-  useEffect(() => {
-    getListUser();
-  }, [])
+  const { data } = useFetchData(getUserList)
 
   return (
     <div className="grid grid-cols-2 w-screen h-screen">
       <div className="flex flex-col items-center justify-center w-full h-full">
-        <UserForm updateList={getListUser} />
+        <UserForm updateList={getUserList} />
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full border-l-2 border-white border-solid">
         {
-          userList.map((item, index) => <UserItem user={item} key={index}/>)
+          data?.map((item, index) => <UserItem user={item} key={index}/>)
         }
       </div>
     </div>
