@@ -1,7 +1,7 @@
-import {Container} from "./Calculate.tsx";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import styled from "styled-components";
+import UserForm from "../components/UserForm.tsx";
+import {getUserList} from "../services/user-api.ts";
 
 type User = {name: string, password: string}
 
@@ -15,7 +15,7 @@ const UserItem = ({user}: {user: User}) => {
 const UserList = () => {
   const [userList, setUserList] = useState<User[]>([])
   function getListUser() {
-    axios.get('https://645644b92e41ccf16918360b.mockapi.io/user').then((response) => {
+    getUserList().then((response) => {
       setUserList(response.data)
     }).catch(error => {
       console.log(error)
@@ -26,11 +26,18 @@ const UserList = () => {
     getListUser();
   }, [])
 
-  return <Container>
-    {
-      userList.map((item, index) => <UserItem user={item} key={index}/>)
-    }
-  </Container>
+  return (
+    <div className="grid grid-cols-2 w-screen h-screen">
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        <UserForm updateList={getListUser} />
+      </div>
+      <div className="flex flex-col items-center justify-center w-full h-full border-l-2 border-white border-solid">
+        {
+          userList.map((item, index) => <UserItem user={item} key={index}/>)
+        }
+      </div>
+    </div>
+  )
 }
 
 const Item = styled.div`
