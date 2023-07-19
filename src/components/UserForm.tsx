@@ -1,7 +1,9 @@
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {createUser} from "../services/user-api.ts";
+import {createUser, updateUser} from "../services/user-api.ts";
+import {UserType} from "../page/UserList.tsx";
+import {useNavigate} from "react-router-dom";
 
 const schema = yup.object({
   name: yup.string().required(),
@@ -9,11 +11,13 @@ const schema = yup.object({
   confirmPassword: yup.string().oneOf([yup.ref('password')])
 }).required();
 
-const UserForm = ({ updateList } : { updateList: () => void }) => {
+const UserForm = ({ updateList, user } : { updateList?: () => void, user?: UserType }) => {
   const { register, handleSubmit, formState: { errors } }
     = useForm({
+    defaultValues: user,
     resolver: yupResolver(schema)
   });
+  const navigate = useNavigate();
 
   async function onSubmit(data: any) {
     const userData = {
@@ -21,8 +25,13 @@ const UserForm = ({ updateList } : { updateList: () => void }) => {
       password: data.password
     }
     try {
-      await createUser(userData);
-      updateList();
+      if (user) {
+        await updateUser(userData, user.id)
+        navigate('/user-list')
+      } else {
+        await createUser(userData);
+      }
+      updateList?.();
     } catch (e) {
       console.log(e)
     }

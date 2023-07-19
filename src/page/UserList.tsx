@@ -15,6 +15,7 @@ const UserItem = ({user}: {user: UserType}) => {
 }
 
 const UserList = () => {
+  // @ts-ignore
   const { data } = useFetchData(getUserList)
 
   return (

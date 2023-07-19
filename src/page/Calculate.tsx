@@ -1,4 +1,4 @@
-import {createContext, memo, useContext, useEffect, useState} from "react";
+import {createContext, memo, useContext, useEffect, useMemo, useState} from "react";
 import styled from "styled-components";
 import {words} from "../lang.ts";
 
@@ -41,6 +41,12 @@ const Calculate = () => {
     setLocale(locale === 'vi' ? 'en' : 'vi');
   }
 
+  // complicated calculate
+  const doubleNumber = useMemo(() => {
+    console.log('tinh toan lai')
+    return randomNumber * 2
+  }, [randomNumber])
+
   return (
     <LocaleContext.Provider value={locale}>
       <Container>
@@ -48,6 +54,7 @@ const Calculate = () => {
         <Button onClick={changeLanguage}>{locale === 'vi' ? 'đổi sang tiếng anh' : 'change to Vietnamese'}</Button>
         <div><button onClick={generateNumber}>{locale === 'vi' ? 'Tạo số ngẫu nhiên' : 'Generate random number'}</button></div>
         <p className="text-red-600 font-bold my-4">X: {randomNumber}</p>
+        <p className="text-red-600 font-bold my-4">Complicated result: {doubleNumber}</p>
         <ContentStyled />
       </Container>
     </LocaleContext.Provider>
