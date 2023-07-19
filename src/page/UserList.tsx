@@ -16,12 +16,12 @@ const UserItem = ({user}: {user: UserType}) => {
 
 const UserList = () => {
   // @ts-ignore
-  const { data } = useFetchData(getUserList)
+  const { data, getData } = useFetchData(getUserList)
 
   return (
     <div className="grid grid-cols-2 w-screen h-screen">
       <div className="flex flex-col items-center justify-center w-full h-full">
-        <UserForm updateList={getUserList} />
+        <UserForm updateList={getData} />
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full border-l-2 border-white border-solid">
         {

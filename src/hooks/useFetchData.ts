@@ -15,7 +15,7 @@ const useFetchData = (functionGet: (param: any) => Promise<any>, param: any) => 
     getData();
   }, [])
 
-  return { data }
+  return { data, getData }
 }
 
 export default useFetchData;
