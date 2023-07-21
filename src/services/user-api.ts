@@ -15,3 +15,7 @@ export async function getUserDetail(id: string) {
 export async function updateUser(data: any, userId: string) {
   return axios.put('https://645644b92e41ccf16918360b.mockapi.io/user/' + userId, data)
 }
+
+export async function loginApi(name: string) {
+  return axios.get('https://645644b92e41ccf16918360b.mockapi.io/user/', { params: {name: name}})
+}
