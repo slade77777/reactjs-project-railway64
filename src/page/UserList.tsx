@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
 import styled from "styled-components";
 import UserForm from "../components/UserForm.tsx";
 import {getUserList} from "../services/user-api.ts";
 import {Link} from "react-router-dom";
 import useFetchData from "../hooks/useFetchData.ts";
+import {useSelector} from "react-redux";
+import store from "../store";
 
 export type UserType = {name: string, password: string, id: string}
 
@@ -15,9 +16,9 @@ const UserItem = ({user}: {user: UserType}) => {
 }
 
 const UserList = () => {
-  // @ts-ignore
   const { data, getData } = useFetchData(getUserList)
-
+  const storeData = useSelector(state => state.user);
+  console.log(storeData);
   return (
     <div className="grid grid-cols-2 w-screen h-screen">
       <div className="flex flex-col items-center justify-center w-full h-full">

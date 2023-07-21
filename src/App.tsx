@@ -5,10 +5,13 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Home from "./page/Home.tsx";
-import React, {useState} from "react";
+import React from "react";
 import User from "./page/User.tsx";
 import Calculate from "./page/Calculate.tsx";
 import UserList from "./page/UserList.tsx";
+import {Provider} from 'react-redux';
+import store from "./store";
+import Login from "./page/Login.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,20 +29,19 @@ const router = createBrowserRouter([
   {
     path: '/user-list',
     element: <UserList />
+  },
+  {
+    path: '/login',
+    element: <Login />
   }
 ]);
 
-export const AppContext = React.createContext(undefined);
-
 function App() {
-  const [data, setData] = useState<any>({ name: 'cuong' })
 
   return (
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    <AppContext.Provider value={{user: data, changeUser: setData}}>
+    <Provider store={store}>
       <RouterProvider router={router} />
-    </AppContext.Provider>
+    </Provider>
   )
 }
 
