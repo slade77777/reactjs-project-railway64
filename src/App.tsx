@@ -1,11 +1,9 @@
 import './App.css'
-
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
 import Home from "./page/Home.tsx";
-import React from "react";
 import User from "./page/User.tsx";
 import Calculate from "./page/Calculate.tsx";
 import UserList from "./page/UserList.tsx";

@@ -25,6 +25,7 @@ const UserList = () => {
         <UserForm updateList={getData} />
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full border-l-2 border-white border-solid">
+        <p>Hello, {storeData.name}</p>
         {
           data?.map((item, index) => <UserItem user={item} key={index}/>)
         }

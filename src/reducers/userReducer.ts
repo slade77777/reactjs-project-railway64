@@ -1,17 +1,29 @@
-import {LOGIN_ACTION} from "../actions/userActions.ts";
+import {LOGIN_ACTION, LOGIN_ACTION_FAIL, LOGIN_ACTION_SUCCESS} from "../actions/userActions.ts";
 
 const initialData = {
   name: '',
   age: '',
-  password: ''
+  password: '',
+  isSubmitting: false
 }
 
-function userReducer(state = initialData, action) {
+function userReducer(state = initialData, action: any) {
   switch (action.type) {
     case LOGIN_ACTION:
       return {
+        isSubmitting: true
+      }
+    case LOGIN_ACTION_SUCCESS:
+      return {
         name: action.payload.name,
-        password: action.payload.password
+        password: action.payload.password,
+        isSubmitting: false
+      }
+    case LOGIN_ACTION_FAIL:
+      return {
+        name: '',
+        password: '',
+        isSubmitting: false
       }
     default:
       return state;
